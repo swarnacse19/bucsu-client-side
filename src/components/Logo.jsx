@@ -8,7 +8,7 @@ export default function Logo() {
       className="flex items-center gap-2 text-xl md:text-2xl font-black tracking-tight"
     >
       <span className="text-3xl">🗳️</span>
-      <span className="bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
+      <span className="bg-linear-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
         VoteBallot
       </span>
     </Link>

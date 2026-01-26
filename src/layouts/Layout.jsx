@@ -1,139 +1,60 @@
-import { Link, useNavigate } from "react-router";
-import useAuth from "../hooks/useAuth";
-import { toast } from "react-toastify";
-import Logo from "../components/Logo";
+import { Outlet } from "react-router";
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
 
 const Layout = () => {
-  const { user, logOut } = useAuth();
-  const navigate = useNavigate();
-
-  const handleLogOut = () => {
-    logOut()
-      .then(() => {
-        toast.success("Logout Successfully!");
-        navigate("/");
-      })
-      .catch((error) => console.log(error));
-  };
-
-  const navLinks = (
-    <>
-      <li><Link to="/notices" className="hover:text-indigo-600 transition-colors">📢 Notices</Link></li>
-      <li><Link to="/report-issue" className="hover:text-indigo-600 transition-colors">⚠️ Report Issue</Link></li>
-      {user?.role === "student" && (
-        <>
-          <li><Link to="/student/dashboard">📊 Dashboard</Link></li>
-          <li><Link to="/student/elections">🗳️ Elections</Link></li>
-        </>
-      )}
-      {/* ... add other roles similarly ... */}
-    </>
-  );
-
   return (
-    <div className="min-h-screen flex flex-col bg-[#f8fafc] overflow-x-hidden">
-      {/* Decorative Background Elements */}
-      <div className="fixed inset-0 pointer-events-none -z-10 overflow-hidden">
-        {/* Large Decorative Icons */}
-        <span className="absolute top-[15%] -left-10 text-[15rem] opacity-[0.03] rotate-12 select-none">🗳️</span>
-        <span className="absolute bottom-[10%] -right-10 text-[20rem] opacity-[0.03] -rotate-12 select-none">⚖️</span>
-        <span className="absolute top-[50%] left-[80%] text-[10rem] opacity-[0.03] select-none">✅</span>
-        
-        {/* Soft Color Blurs */}
-        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-indigo-100/50 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/2"></div>
-        <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-purple-100/50 rounded-full blur-[100px] translate-y-1/2 -translate-x-1/2"></div>
+    <div className="min-h-screen flex flex-col bg-[#fcfdfe] overflow-x-hidden">
+      {/* Dynamic Background */}
+      <div className="fixed inset-0 pointer-events-none -z-10">
+         <div className="absolute top-[10%] right-[5%] w-96 h-96 bg-indigo-50 rounded-full blur-[100px] opacity-60"></div>
+         <div className="absolute bottom-[10%] left-[5%] w-80 h-80 bg-purple-50 rounded-full blur-[100px] opacity-60"></div>
+         {/* Abstract Shapes */}
+         <svg className="absolute top-20 left-0 opacity-[0.03]" width="400" height="400" viewBox="0 0 200 200">
+            <path fill="#4F46E5" d="M44.7,-76.4C58.8,-69.2,71.8,-59.1,79.6,-45.8C87.4,-32.5,90,-16.3,88.5,-0.9C87,14.6,81.4,29.1,73.1,41.9C64.8,54.7,53.8,65.7,40.6,73.4C27.4,81.1,13.7,85.5,-0.6,86.5C-14.8,87.5,-29.7,85.1,-43,77.5C-56.3,69.9,-68.1,57.1,-76,42.4C-83.9,27.7,-87.9,11.2,-86.3,-4.9C-84.7,-21,-77.5,-36.8,-66.8,-49.2C-56.1,-61.6,-41.9,-70.7,-27.6,-77.8C-13.3,-84.9,1.1,-90,15.8,-88.1C30.5,-86.2,44.7,-76.4Z" transform="translate(100 100)" />
+         </svg>
       </div>
 
-      {/* Navbar */}
-      <nav className="navbar bg-white/80 backdrop-blur-md sticky top-0 z-50 border-b border-slate-200 px-4 lg:px-12">
-        <div className="navbar-start">
-          <div className="dropdown">
-            <button tabIndex={0} className="btn btn-ghost lg:hidden text-indigo-600">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h8m-8 6h16" /></svg>
-            </button>
-            <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow-xl bg-white rounded-2xl w-52 font-semibold">
-              {navLinks}
-            </ul>
-          </div>
-          <Logo></Logo>
-        </div>
+      <Navbar />
 
-        <div className="navbar-center hidden lg:flex">
-          <ul className="menu menu-horizontal px-1 gap-2 font-semibold text-slate-600">
-            {navLinks}
-          </ul>
-        </div>
-
-        <div className="navbar-end gap-3">
-          {user ? (
-             <div className="flex items-center gap-3">
-                <div className="hidden sm:block text-right">
-                    <p className="text-xs font-bold text-slate-500 uppercase leading-none">{user.role}</p>
-                    <p className="text-sm font-medium text-slate-800">{user.name || 'User'}</p>
-                </div>
-                <button onClick={handleLogOut} className="btn btn-error btn-sm rounded-xl text-white normal-case shadow-md">Logout</button>
-             </div>
-          ) : (
-            <>
-              <Link to="/login" className="btn btn-ghost btn-sm font-bold text-indigo-600">Login</Link>
-              <Link to="/register" className="btn btn-primary btn-sm rounded-xl px-6 text-white shadow-lg shadow-indigo-200 border-none bg-indigo-600 hover:bg-indigo-700 transition-all">Join Now</Link>
-            </>
-          )}
-        </div>
-      </nav>
-
-      {/* Main Content Area */}
-      <main className="flex-grow flex flex-col">
-        <div className="container mx-auto px-4 py-8 lg:py-12 flex-grow relative">
+      <main className="flex-grow flex flex-col relative">
+        <div className="container mx-auto px-4 py-8 lg:py-12 flex-grow">
           
-          {/* Quick Info Bar - (Responsive design element) */}
-          <div className="mb-8 grid grid-cols-1 md:grid-cols-3 gap-4">
-             <div className="bg-white/40 backdrop-blur-sm border border-white p-4 rounded-3xl flex items-center gap-4">
-                <div className="w-12 h-12 bg-green-100 text-green-600 rounded-2xl flex items-center justify-center text-xl">🔒</div>
-                <div><h4 className="font-bold text-slate-800">Secure</h4><p className="text-xs text-slate-500">End-to-end Encrypted</p></div>
-             </div>
-             <div className="bg-white/40 backdrop-blur-sm border border-white p-4 rounded-3xl flex items-center gap-4 hidden md:flex">
-                <div className="w-12 h-12 bg-blue-100 text-blue-600 rounded-2xl flex items-center justify-center text-xl">⚡</div>
-                <div><h4 className="font-bold text-slate-800">Fast</h4><p className="text-xs text-slate-500">Real-time Counting</p></div>
-             </div>
-             <div className="bg-white/40 backdrop-blur-sm border border-white p-4 rounded-3xl flex items-center gap-4">
-                <div className="w-12 h-12 bg-purple-100 text-purple-600 rounded-2xl flex items-center justify-center text-xl">🤝</div>
-                <div><h4 className="font-bold text-slate-800">Transparent</h4><p className="text-xs text-slate-500">Open Auditing</p></div>
-             </div>
+          {/* Quick Info Bar */}
+          <div className="mb-10 grid grid-cols-1 md:grid-cols-3 gap-6">
+             {[
+               { icon: "🔒", title: "Secure", desc: "End-to-end Encrypted", color: "bg-green-50 text-green-600" },
+               { icon: "⚡", title: "Instant", desc: "Live Result Tracking", color: "bg-blue-50 text-blue-600" },
+               { icon: "🤝", title: "Reliable", desc: "Verified Student IDs", color: "bg-purple-50 text-purple-600" }
+             ].map((item, idx) => (
+               <div key={idx} className="bg-white/60 backdrop-blur-sm border border-white p-5 rounded-3xl flex items-center gap-5 shadow-sm hover:shadow-md transition-shadow">
+                  <div className={`w-14 h-14 ${item.color} rounded-2xl flex items-center justify-center text-2xl shadow-inner`}>
+                    {item.icon}
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-slate-800 leading-none mb-1">{item.title}</h4>
+                    <p className="text-xs text-slate-500 font-medium">{item.desc}</p>
+                  </div>
+               </div>
+             ))}
           </div>
 
-          {/* Page Content Holder */}
-          <div className="bg-green-100 backdrop-blur-md border border-white/50 shadow-2xl shadow-indigo-100/50 rounded-[2.5rem] p-6 md:p-10 min-h-[60vh]">
-            <h1>Hello! ekhane image ba onno kono design add korbi tora, jeta dekhte shundor lage</h1>
+          {/* Main Content Wrapper */}
+          <div className="relative group">
+            {/* Design Element: Background Glass Glow */}
+            <div className="absolute -inset-1 bg-gradient-to-r from-indigo-100 to-purple-100 rounded-[2.6rem] blur opacity-25 group-hover:opacity-50 transition duration-1000"></div>
+            
+            <div className="relative bg-white/70 backdrop-blur-xl border border-white shadow-[0_20px_50px_rgba(79,70,229,0.05)] rounded-[2.5rem] p-6 md:p-12 min-h-[60vh]">
+               {/* 
+               */}
+               <Outlet />
+            </div>
           </div>
+
         </div>
       </main>
 
-      {/* Professional Footer */}
-      <footer className="bg-slate-900 text-slate-400 py-12 px-6">
-        <div className="container mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
-          <div className="col-span-1 lg:col-span-2">
-            <h3 className="text-white text-2xl font-bold mb-4">🗳️ VoteBallot</h3>
-            <p className="max-w-xs leading-relaxed">The next generation of voting management. Transparent, secure, and accessible for every student.</p>
-          </div>
-          <div>
-            <h4 className="text-white font-bold mb-4 italic">Quick Links</h4>
-            <ul className="space-y-2 text-sm">
-              <li><Link to="/" className="hover:text-indigo-400">Home</Link></li>
-              <li><Link to="/notices" className="hover:text-indigo-400">Notices</Link></li>
-              <li><Link to="/report-issue" className="hover:text-indigo-400">Support</Link></li>
-            </ul>
-          </div>
-          <div>
-            <h4 className="text-white font-bold mb-4 italic">Platform</h4>
-            <div className="badge badge-primary bg-indigo-600 p-3">v2.0.1 Stable</div>
-            <p className="text-xs mt-4">Built with React & DaisyUI</p>
-          </div>
-        </div>
-        <div className="container mx-auto border-t border-slate-800 mt-10 pt-6 text-center text-xs">
-          © {new Date().getFullYear()} University Election Commission. All rights reserved.
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 };
