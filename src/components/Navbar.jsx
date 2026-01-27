@@ -20,7 +20,7 @@ const Navbar = () => {
     <>
       <li><Link to="/notices" className="hover:text-indigo-600 transition-colors">📢 Notices</Link></li>
       <li><Link to="/report-issue" className="hover:text-indigo-600 transition-colors">⚠️ Report Issue</Link></li>
-      {user?.role === "student" && (
+      {user && (
         <>
           <li><Link to="/student/dashboard">📊 Dashboard</Link></li>
           <li><Link to="/student/elections">🗳️ Elections</Link></li>

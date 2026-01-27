@@ -5,10 +5,11 @@ import Register from "../pages/Authentication/Register";
 import Layout from "../layouts/Layout";
 import Loading from "../loading/Loading";
 import PrivateRoute from "../routes/PrivateRoute";
+import StudentDashboard from "../Student/StudentDashboard";
 
 export const router = createBrowserRouter([
-  { 
-    path: "/login", 
+  {
+    path: "/login",
     Component: Login,
   },
   {
@@ -20,8 +21,8 @@ export const router = createBrowserRouter([
     Component: Loading,
   },
   {
-     path: "/",
-    element: <PrivateRoute />,  
+    path: "/",
+    element: <PrivateRoute />,
     children: [
       {
         element: <Layout />,
@@ -30,9 +31,19 @@ export const router = createBrowserRouter([
             path: "/",
             element: <Home />,
           },
+          {
+            path: "student",
+            // element: <ProtectedRoute allowedRoles={['student']} />,
+            children: [
+              { path: "dashboard", element: <StudentDashboard /> },
+              // { path: "profile", element: <StudentProfile /> },
+              // { path: "elections", element: <StudentElections /> },
+              // { path: "vote/:id", element: <StudentVote /> },
+              // { path: "results", element: <StudentResults /> },
+            ],
+          },
         ],
       },
     ],
   },
-
 ]);
