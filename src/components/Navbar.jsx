@@ -1,72 +1,66 @@
-import { Link, useNavigate } from "react-router";
-import useAuth from "../hooks/useAuth";
-import { toast } from "react-toastify";
-import Logo from "./Logo";
+import { useState } from 'react';
+import { Link, NavLink } from 'react-router';
+import { FaBars, FaSignOutAlt, } from 'react-icons/fa';
+import useAuth from '../hooks/useAuth';
+import Logo from './Logo';
+
+const navLinks = [
+  { name: 'Home', path: '/' },
+  { name: 'About Us', path: '/about' },
+  { name: 'Why Vote Ballot', path: '/why-vote-ballot' },
+  { name: 'Stories', path: '/stories' },
+  { name: 'Contact Us', path: '/contact' },
+];
 
 const Navbar = () => {
+  const [isOpen, setIsOpen] = useState(false);
   const { user, logOut } = useAuth();
-  const navigate = useNavigate();
 
-  const handleLogOut = () => {
-    logOut()
-      .then(() => {
-        toast.success("Logout Successfully!");
-        navigate("/");
-      })
-      .catch((error) => console.log(error));
+  const handleLogout = async () => {
+    try { await logOut(); } catch (e) { console.error(e); }
   };
 
-  const navLinks = (
-    <>
-      <li><Link to="/notices" className="hover:text-indigo-600 transition-colors">📢 Notices</Link></li>
-      <li><Link to="/report-issue" className="hover:text-indigo-600 transition-colors">⚠️ Report Issue</Link></li>
-      {user && (
-        <>
-          <li><Link to="/student/dashboard">📊 Dashboard</Link></li>
-          <li><Link to="/student/elections">🗳️ Elections</Link></li>
-        </>
-      )}
-      {/* ... অন্য রোলগুলো এখানে যোগ করুন ... */}
-    </>
-  );
-
   return (
-    <nav className="navbar bg-white/80 backdrop-blur-md sticky top-0 z-50 border-b border-slate-200 px-4 lg:px-12">
-      <div className="navbar-start">
-        <div className="dropdown">
-          <button tabIndex={0} className="btn btn-ghost lg:hidden text-indigo-600">
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h8m-8 6h16" />
-            </svg>
-          </button>
-          <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-1 p-2 shadow-xl bg-white rounded-2xl w-52 font-semibold">
-            {navLinks}
-          </ul>
+    <nav className="bg-white/80 backdrop-blur-md border-b border-slate-100 sticky top-0 z-50">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between h-20 items-center">
+          <Logo />
+
+          {/* Desktop Menu */}
+          <div className="hidden lg:flex items-center space-x-2">
+            {navLinks.map((link) => (
+              <NavLink
+                key={link.path}
+                to={link.path}
+                className={({ isActive }) =>
+                  `px-4 py-2 rounded-full text-[15px] font-medium transition-all duration-300 ${
+                    isActive ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-200' : 'text-slate-600 hover:text-indigo-600 hover:bg-indigo-50'
+                  }`
+                }
+              >
+                {link.name}
+              </NavLink>
+            ))}
+          </div>
+
+          {/* User Section */}
+          <div className="hidden lg:flex items-center gap-4">
+            {user ? (
+              <div className="flex items-center gap-4 bg-slate-50 p-1.5 pr-4 rounded-full border border-slate-200">
+                <img src={user?.photoURL || 'https://i.pravatar.cc/150'} className="w-9 h-9 rounded-full ring-2 ring-white object-cover" alt="user" />
+                <Link to="/dashboard" className="text-sm font-semibold text-slate-700 hover:text-indigo-600">Dashboard</Link>
+                <button onClick={handleLogout} className="text-red-500 hover:bg-red-50 p-2 rounded-full transition-colors"><FaSignOutAlt /></button>
+              </div>
+            ) : (
+              <div className="flex items-center gap-3">
+                <Link to="/login" className="text-slate-600 font-medium hover:text-indigo-600">Login</Link>
+                <Link to="/register" className="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2.5 rounded-full text-sm font-bold shadow-xl shadow-indigo-100 transition-all active:scale-95">Join Now</Link>
+              </div>
+            )}
+          </div>
+
+          <button onClick={() => setIsOpen(!isOpen)} className="lg:hidden p-2 text-slate-600"><FaBars size={24} /></button>
         </div>
-        <Logo />
-      </div>
-
-      <div className="navbar-center hidden lg:flex">
-        <ul className="menu menu-horizontal px-1 gap-2 font-semibold text-slate-600">
-          {navLinks}
-        </ul>
-      </div>
-
-      <div className="navbar-end gap-3">
-        {user ? (
-          <div className="flex items-center gap-3">
-            <div className="hidden sm:block text-right">
-              <p className="text-xs font-bold text-slate-500 uppercase leading-none">{user.role}</p>
-              <p className="text-sm font-medium text-slate-800">{user.name || 'User'}</p>
-            </div>
-            <button onClick={handleLogOut} className="btn btn-error btn-sm rounded-xl text-white normal-case shadow-md">Logout</button>
-          </div>
-        ) : (
-          <div className="flex gap-2">
-            <Link to="/login" className="btn btn-ghost btn-sm font-bold text-indigo-600">Login</Link>
-            <Link to="/register" className="btn btn-primary btn-sm rounded-xl px-6 text-white shadow-lg shadow-indigo-200 border-none bg-indigo-600 hover:bg-indigo-700 transition-all">Join Now</Link>
-          </div>
-        )}
       </div>
     </nav>
   );
