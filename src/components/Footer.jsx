@@ -1,43 +1,68 @@
-import { Link } from "react-router";
+import { Link } from 'react-router';
+import { FaVoteYea, FaFacebook, FaTwitter, FaInstagram, FaLinkedin, FaEnvelope, FaPhone, FaMapMarkerAlt } from 'react-icons/fa';
 
 const Footer = () => {
-  return (
-    <footer className="bg-white text-slate-600 py-12 px-6 border-t border-slate-200">
-      <div className="container mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
-        <div className="col-span-1 lg:col-span-2">
-          <h3 className="text-indigo-600 text-2xl font-black mb-4 flex items-center gap-2">
-            <span>🗳️</span> VoteBallot
-          </h3>
-          <p className="max-w-xs leading-relaxed text-slate-500">
-            The next generation of voting management. Transparent, secure, and accessible for every student in our university.
-          </p>
-        </div>
-        
-        <div>
-          <h4 className="text-slate-900 font-bold mb-4 uppercase tracking-wider text-sm">Quick Links</h4>
-          <ul className="space-y-2 text-sm font-medium">
-            <li><Link to="/" className="hover:text-indigo-600 transition-colors">Home</Link></li>
-            <li><Link to="/notices" className="hover:text-indigo-600 transition-colors">Notices</Link></li>
-            <li><Link to="/report-issue" className="hover:text-indigo-600 transition-colors">Support Center</Link></li>
-          </ul>
-        </div>
+  const y = new Date().getFullYear();
 
-        <div>
-          <h4 className="text-slate-900 font-bold mb-4 uppercase tracking-wider text-sm">Connect With Us</h4>
-          <p className="text-sm mb-4">Have questions? Reach out to the Election Commission.</p>
-          <div className="flex gap-4">
-            <button className="btn btn-circle btn-sm btn-ghost bg-slate-100">📧</button>
-            <button className="btn btn-circle btn-sm btn-ghost bg-slate-100">🌐</button>
-            <button className="btn btn-circle btn-sm btn-ghost bg-slate-100">📱</button>
+  return (
+    <footer className="bg-slate-900 text-slate-300">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="space-y-4">
+            <Link to="/" className="flex items-center gap-2">
+              <FaVoteYea className="text-indigo-500 text-3xl" />
+              <span className="text-2xl font-bold text-white">Vote Ballot</span>
+            </Link>
+            <p className="text-sm text-slate-400 leading-relaxed">
+              An online voting platform empowering students through secure, transparent elections.
+            </p>
+            <div className="flex gap-4">
+              <a href="#" className="text-slate-400 hover:text-indigo-400 transition-colors" aria-label="Facebook"><FaFacebook size={20} /></a>
+              <a href="#" className="text-slate-400 hover:text-indigo-400 transition-colors" aria-label="Twitter"><FaTwitter size={20} /></a>
+              <a href="#" className="text-slate-400 hover:text-indigo-400 transition-colors" aria-label="Instagram"><FaInstagram size={20} /></a>
+              <a href="#" className="text-slate-400 hover:text-indigo-400 transition-colors" aria-label="LinkedIn"><FaLinkedin size={20} /></a>
+            </div>
+          </div>
+          <div>
+            <h3 className="text-white font-semibold mb-4">Quick Links</h3>
+            <ul className="space-y-2">
+              {['Home', 'About Us', 'Why Vote Ballot', 'Stories', 'Contact Us'].map((label, i) => {
+                const path = label === 'Home' ? '/' : label === 'Elections' ? '/elections' : label === 'About Us' ? '/about' : label === 'Why Vote Ballot' ? '/why-vote-ballot' : label === 'Stories' ? '/stories' : '/contact';
+                return (
+                  <li key={i}><Link to={path} className="text-sm hover:text-indigo-400 transition-colors">{label}</Link></li>
+                );
+              })}
+            </ul>
+          </div>
+          <div>
+            <h3 className="text-white font-semibold mb-4">Resources</h3>
+            <ul className="space-y-2">
+              <li><Link to="/dashboard/guidelines" className="text-sm hover:text-indigo-400 transition-colors">Voting Guidelines</Link></li>
+              <li><a href="#faq" className="text-sm hover:text-indigo-400 transition-colors">FAQ</a></li>
+            </ul>
+          </div>
+          <div>
+            <h3 className="text-white font-semibold mb-4">Contact</h3>
+            <ul className="space-y-3">
+              <li className="flex items-center gap-3">
+                <FaMapMarkerAlt className="text-indigo-500 flex-shrink-0" />
+                <span className="text-sm">University Campus, Barishal, Bangladesh</span>
+              </li>
+              <li className="flex items-center gap-3">
+                <FaEnvelope className="text-indigo-500 flex-shrink-0" />
+                <a href="mailto:info@voteballot.com" className="text-sm hover:text-indigo-400 transition-colors">info@voteballot.com</a>
+              </li>
+              <li className="flex items-center gap-3">
+                <FaPhone className="text-indigo-500 flex-shrink-0" />
+                <a href="tel:+8801234567890" className="text-sm hover:text-indigo-400 transition-colors">+880 1824 311 959</a>
+              </li>
+            </ul>
           </div>
         </div>
       </div>
-      
-      <div className="container mx-auto border-t border-slate-100 mt-10 pt-6 flex flex-col md:flex-row justify-between items-center gap-4 text-xs font-medium text-slate-400">
-        <p>© {new Date().getFullYear()} University Election Commission. All rights reserved.</p>
-        <div className="flex gap-6">
-          <a href="#" className="hover:text-indigo-600">Privacy Policy</a>
-          <a href="#" className="hover:text-indigo-600">Terms of Service</a>
+      <div className="border-t border-slate-800">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col sm:flex-row justify-center items-center gap-2">
+          <p className="text-sm text-slate-400">&copy; {y} Vote Ballot. All rights reserved.</p>
         </div>
       </div>
     </footer>
