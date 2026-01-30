@@ -8,7 +8,7 @@ const Contact = () => {
           {/* Contact Info */}
           <div className="bg-indigo-600 lg:w-1/3 p-12 text-white">
             <h2 className="text-3xl font-bold mb-6">Get in Touch</h2>
-            <p className="text-indigo-100 mb-12">আমাদের সম্পর্কে কোনো প্রশ্ন থাকলে বা সাহায্যের প্রয়োজন হলে নির্দ্বিধায় মেসেজ দিন।</p>
+            <p className="text-indigo-100 mb-12">If you have any questions about our platform or need assistance, feel free to reach out to us anytime.</p>
             
             <div className="space-y-8">
               <div className="flex items-center gap-4">
