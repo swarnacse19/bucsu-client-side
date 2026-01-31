@@ -1,5 +1,7 @@
 import rayhan from "../../assets/rayhan.png";
 import image from "../../assets/image.png";
+import avatar from "../../assets/avatar.png";
+import mypic from "../../assets/mypic3.jpg";
 
 const Stories = () => {
   const reviews = [
@@ -13,7 +15,7 @@ const Stories = () => {
     {
       name: "Israt Jahan Tamanna",
       role: "Student, Dept of English",
-      img: tamanna,
+      img: avatar,
       comment:
         "Vote Ballot made campus elections simple and stress-free. I could vote securely from my phone without missing a single update.",
     },
@@ -27,17 +29,24 @@ const Stories = () => {
     {
       name: "Ismita Jahan",
       role: "Student, Dept of Biochemistry",
-      img: ismita,
+      img: avatar,
       comment:
         "The transparency of the voting process really impressed me. Results were clear, fast, and completely trustworthy.",
     },
     {
       name: "Sazzad Hossain",
       role: "Student, Dept of Mathematics",
-      img: sazzad,
+      img: avatar,
       comment:
         "With Vote Ballot, I can cast my vote from home or anywhere on campus—quick, secure, and hassle‑free.",
-    }
+    },
+    {
+      name: "Shaida Khanom Sharna",
+      role: "Student, Dept of CSE",
+      img: mypic,
+      comment:
+        "Vote Ballot made campus elections simple and stress-free. I could vote securely from my phone without missing a single update.",
+    },
   ];
 
   return (
