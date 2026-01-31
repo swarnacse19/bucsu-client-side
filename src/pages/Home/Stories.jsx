@@ -17,7 +17,7 @@ const Stories = () => {
       role: "Student, Dept of English",
       img: avatar,
       comment:
-        "Vote Ballot made campus elections simple and stress-free. I could vote securely from my phone without missing a single update.",
+        "Vote Ballot made campus elections smooth and transparent. The secure online voting system saved time and kept me informed throughout the process.",
     },
     {
       name: "MD Rayhan",
