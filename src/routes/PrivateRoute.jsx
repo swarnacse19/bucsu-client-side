@@ -1,9 +1,9 @@
 import React from "react";
-import { Navigate, Outlet, useLocation } from "react-router";
+import { Navigate, useLocation } from "react-router";
 import Loading from "../loading/Loading";
 import useAuth from "../hooks/useAuth";
 
-function PrivateRoute() {
+function PrivateRoute({children}) {
   const { user, loading } = useAuth();
   const location = useLocation()
   if (loading) {
@@ -12,7 +12,7 @@ function PrivateRoute() {
   if(!user){
     return <Navigate state={location.pathname} to="/login"></Navigate>
   }
-  return <Outlet />;;
+  return children;
 }
 
 export default PrivateRoute;
