@@ -24,21 +24,11 @@ const ApplyCandidate = () => {
   const [formData, setFormData] = useState({
     electionId: "",
     position: "",
+    studentId: "",
     manifesto: "",
     experience: "",
     whyChooseMe: "",
   });
-
-  const positions = [
-    "President",
-    "Vice President",
-    "General Secretary",
-    "Assistant General Secretary",
-    "Treasurer",
-    "Cultural Secretary",
-    "Sports Secretary",
-    "Social Welfare Secretary",
-  ];
 
   // ---------------- FETCH ELECTIONS ----------------
   useEffect(() => {
@@ -119,8 +109,6 @@ const ApplyCandidate = () => {
         ...formData,
         name: user?.name || user?.displayName,
         email: user?.email,
-        studentId: user?.studentId,
-        department: user?.department,
         photo: photoURL,
         electionTitle: selectedElection?.title,
         status: "pending",
@@ -145,14 +133,16 @@ const ApplyCandidate = () => {
     <div className="max-w-3xl mx-auto">
       <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
         {/* Header */}
-        <div className="bg-gradient-to-r from-purple-600 to-indigo-600 p-6">
+        <div className="bg-linear-to-r from-purple-600 to-indigo-600 p-6">
           <div className="flex items-center gap-3">
             <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center">
               <FaUserTie className="text-white text-xl" />
             </div>
             <div className="text-white">
               <h1 className="text-2xl font-bold">Apply for Candidate</h1>
-              <p className="text-purple-100">Submit your candidacy application</p>
+              <p className="text-purple-100">
+                Submit your candidacy application
+              </p>
             </div>
           </div>
         </div>
@@ -165,9 +155,17 @@ const ApplyCandidate = () => {
               <div className="relative">
                 <div className="w-28 h-28 rounded-full overflow-hidden border-4 border-purple-100 bg-gray-100">
                   {imagePreview ? (
-                    <img src={imagePreview} alt="Preview" className="w-full h-full object-cover" />
-                  ) : (user?.photo || user?.photoURL) ? (
-                    <img src={user.photo || user.photoURL} alt="Current" className="w-full h-full object-cover" />
+                    <img
+                      src={imagePreview}
+                      alt="Preview"
+                      className="w-full h-full object-cover"
+                    />
+                  ) : user?.photo || user?.photoURL ? (
+                    <img
+                      src={user.photo || user.photoURL}
+                      alt="Current"
+                      className="w-full h-full object-cover"
+                    />
                   ) : (
                     <div className="w-full h-full flex items-center justify-center text-gray-400">
                       <FaUpload size={24} />
@@ -184,12 +182,16 @@ const ApplyCandidate = () => {
                   />
                 </label>
               </div>
-              <span className="text-sm text-gray-500 mt-2">Upload Candidate Photo</span>
+              <span className="text-sm text-gray-500 mt-2">
+                Upload Candidate Photo
+              </span>
             </div>
 
             {/* Applicant Info */}
             <div className="bg-gray-50 rounded-xl p-4">
-              <h3 className="font-medium text-gray-700 mb-2">Applicant Information</h3>
+              <h3 className="font-medium text-gray-700 mb-2">
+                Applicant Information
+              </h3>
               <p className="text-gray-600">{user?.name || user?.displayName}</p>
               <p className="text-gray-500 text-sm">{user?.email}</p>
               {user?.department && (
@@ -212,7 +214,7 @@ const ApplyCandidate = () => {
                 <option value="">Choose an election</option>
                 {elections.map((election) => (
                   <option key={election._id} value={election._id}>
-                    {election.title} ({election.type})
+                    {election.title}
                   </option>
                 ))}
               </select>
@@ -228,15 +230,34 @@ const ApplyCandidate = () => {
                 value={formData.position}
                 onChange={handleChange}
                 required
-                className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500"
+                disabled={!selectedElection}
+                className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 disabled:bg-gray-100"
               >
-                <option value="">Select position</option>
-                {positions.map((position) => (
-                  <option key={position} value={position}>
-                    {position}
+                <option value="">
+                  {selectedElection
+                    ? "Select position"
+                    : "Select election first"}
+                </option>
+
+                {selectedElection?.positions?.map((pos) => (
+                  <option key={pos} value={pos}>
+                    {pos}
                   </option>
                 ))}
               </select>
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Id <span className="text-red-500">*</span>
+              </label>
+            <input
+              className="w-full border p-2 rounded"
+              name="studentId"
+              value={formData.Id}
+              onChange={handleChange}
+              placeholder="Enter your ID"
+              required
+            />
             </div>
 
             {/* Manifesto */}
@@ -294,8 +315,20 @@ const ApplyCandidate = () => {
               {submitting ? (
                 <>
                   <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
-                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
-                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                    <circle
+                      className="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      strokeWidth="4"
+                      fill="none"
+                    />
+                    <path
+                      className="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                    />
                   </svg>
                   Submitting...
                 </>
