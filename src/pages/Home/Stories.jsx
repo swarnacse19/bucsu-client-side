@@ -1,7 +1,10 @@
 import rayhan from "../../assets/rayhan.png";
-import image from "../../assets/image.png";
+import image from "../../assets/image1.png";
 import avatar from "../../assets/avatar.png";
 import mypic from "../../assets/mypic3.jpg";
+import tamanna from "../../assets/tamanna.png";
+import sazzad from "../../assets/sazzad.png";
+import ismita from "../../assets/ismita.png";
 
 const Stories = () => {
   const reviews = [
@@ -15,7 +18,7 @@ const Stories = () => {
     {
       name: "Israt Jahan Tamanna",
       role: "Student, Dept of English",
-      img: avatar,
+      img: tamanna,
       comment:
         "Vote Ballot made campus elections smooth and transparent. The secure online voting system saved time and kept me informed throughout the process.",
     },
@@ -29,14 +32,14 @@ const Stories = () => {
     {
       name: "Ismita Jahan",
       role: "Student, Dept of Biochemistry",
-      img: avatar,
+      img: ismita,
       comment:
         "The transparency of the voting process really impressed me. Results were clear, fast, and completely trustworthy.",
     },
     {
       name: "Sazzad Hossain",
       role: "Student, Dept of Mathematics",
-      img: avatar,
+      img: sazzad,
       comment:
         "With Vote Ballot, I can cast my vote from home or anywhere on campus—quick, secure, and hassle‑free.",
     },
@@ -75,7 +78,7 @@ const Stories = () => {
               <img
                 src={r.img}
                 alt={r.name}
-                className="w-20 h-20 rounded-2xl object-cover ring-4 ring-white shadow-lg"
+                className="w-20 h-20 rounded-xl object-cover ring-4 ring-white shadow-lg"
               />
               <div>
                 <p className="text-lg italic text-slate-700 mb-6">

@@ -51,7 +51,7 @@ const ResultModal = ({ data, close }) => {
 
                     <div>
                       <p className="font-semibold text-gray-800">{c.name}</p>
-                      <p className="text-sm text-gray-500">{c.studentId}</p>
+                      {/* <p className="text-sm text-gray-500">{c.studentId}</p> */}
                     </div>
                   </div>
 
