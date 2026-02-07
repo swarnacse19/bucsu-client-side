@@ -30,9 +30,9 @@ const ViewResultModal = ({ data, close }) => {
                     />
                     <div>
                       <p className="font-semibold">{c.name}</p>
-                      <p className="text-sm text-gray-500">
+                      {/* <p className="text-sm text-gray-500">
                         {c.studentId}
-                      </p>
+                      </p> */}
                     </div>
                   </div>
 

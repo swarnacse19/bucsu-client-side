@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
 import useAxios from "../../hooks/useAxios";
-import { toast, ToastContainer } from "react-toastify";
+import toast from "react-hot-toast";
 
 const VotePage = ({ electionId, userId, onBack }) => {
   const axiosSecure = useAxios();
-
   const [grouped, setGrouped] = useState({});
   const [selected, setSelected] = useState({});
   const [loading, setLoading] = useState(true);
@@ -14,9 +13,9 @@ const VotePage = ({ electionId, userId, onBack }) => {
 
     axiosSecure
       .get(`/candidates/${electionId}`)
-      .then(res => {
+      .then((res) => {
         const group = {};
-        res.data.forEach(c => {
+        res.data.forEach((c) => {
           if (!group[c.position]) group[c.position] = [];
           group[c.position].push(c);
         });
@@ -25,16 +24,8 @@ const VotePage = ({ electionId, userId, onBack }) => {
       .finally(() => setLoading(false));
   }, [axiosSecure, electionId]);
 
-  // 🔹 updated: store full candidate info
-  const handleSelect = (position, candidate) => {
-    setSelected(prev => ({
-      ...prev,
-      [position]: {
-        studentId: candidate.studentId,
-        name: candidate.name,
-        photo: candidate.photo,
-      },
-    }));
+  const handleSelect = (position, studentId) => {
+    setSelected((prev) => ({ ...prev, [position]: studentId }));
   };
 
   const handleSubmit = async () => {
@@ -44,14 +35,10 @@ const VotePage = ({ electionId, userId, onBack }) => {
       return toast.error("You didn't cast vote on every position");
     }
 
-    const votes = Object.entries(selected).map(
-      ([position, candidate]) => ({
-        position,
-        studentId: candidate.studentId,
-        name: candidate.name,
-        photo: candidate.photo,
-      })
-    );
+    const votes = Object.entries(selected).map(([position, studentId]) => ({
+      position,
+      studentId,
+    }));
 
     try {
       await axiosSecure.post("/votes", {
@@ -61,7 +48,7 @@ const VotePage = ({ electionId, userId, onBack }) => {
       });
 
       toast.success("Vote submitted successfully");
-      onBack();
+      onBack(); 
     } catch (err) {
       toast.error("Failed to submit vote");
     }
@@ -71,39 +58,31 @@ const VotePage = ({ electionId, userId, onBack }) => {
 
   return (
     <div className="space-y-6">
-      {Object.keys(grouped).map(position => (
+      {Object.keys(grouped).map((position) => (
         <div key={position} className="bg-white p-6 rounded-xl">
-          <h2 className="text-xl font-bold mb-4 uppercase">
-            {position}
-          </h2>
+          <h2 className="text-xl font-bold mb-4 uppercase">{position}</h2>
 
           <div className="grid md:grid-cols-3 gap-4">
-            {grouped[position].map(c => (
+            {grouped[position].map((c) => (
               <label
                 key={c.studentId}
-                className={`border-2 p-4 rounded-lg cursor-pointer text-center ${
-                  selected[position]?.studentId === c.studentId
-                    ? "border-green-600"
-                    : ""
-                }`}
+                className={`border p-4 rounded-lg cursor-pointer text-center transition
+    ${
+      selected[position] === c.studentId ? "border-green-500" : "border-black"
+    }`}
               >
-                <img
-                  src={c.photo}
-                  className="w-20 h-20 rounded-full mx-auto mb-2"
-                  alt={c.name}
-                />
-                <p className="font-semibold">{c.name}</p>
-                <p className="text-sm text-gray-500">
-                  {c.studentId}
-                </p>
                 <input
                   type="radio"
                   name={position}
-                  className="hidden"
-                  onChange={() =>
-                    handleSelect(position, c)
-                  }
+                  className=""
+                  onChange={() => handleSelect(position, c.studentId)}
                 />
+                <img
+                  src={c.photo}
+                  className="w-20 h-20 rounded-full mx-auto mb-2"
+                />
+                <p className="font-semibold">{c.name}</p>
+                <p className="text-sm text-gray-500">{c.studentId}</p>
               </label>
             ))}
           </div>
@@ -111,10 +90,7 @@ const VotePage = ({ electionId, userId, onBack }) => {
       ))}
 
       <div className="flex gap-4">
-        <button
-          onClick={onBack}
-          className="w-1/2 bg-gray-300 py-3 rounded-lg"
-        >
+        <button onClick={onBack} className="w-1/2 bg-gray-300 py-3 rounded-lg">
           Back
         </button>
 
@@ -125,8 +101,6 @@ const VotePage = ({ electionId, userId, onBack }) => {
           Submit Vote
         </button>
       </div>
-
-      <ToastContainer position="top-right" autoClose={5000} />
     </div>
   );
 };

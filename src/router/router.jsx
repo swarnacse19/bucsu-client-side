@@ -21,12 +21,12 @@ import Guidelines from "../pages/Dashboard/GuideLines";
 import Notifications from "../pages/Dashboard/Notifications";
 import MyApplications from "../pages/Dashboard/MyApplications";
 import ManageApplications from "../pages/shared/ManageApplications";
-import VotePage from "../pages/vote/VotePage";
 import ResultManage from "../pages/vote/ResultManage";
 import ViewResults from "../pages/vote/ViewResults";
 import AdminLayout from "../layouts/AdminLayout";
 import AdminDashboard from "../pages/Admin/AdminDashboard";
 import ManageUsers from "../pages/Admin/ManageUsers";
+import VotePage from "../pages/vote/VotePage";
 
 export const router = createBrowserRouter([
   {
