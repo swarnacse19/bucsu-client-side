@@ -41,6 +41,11 @@ const AuthorityLayout = () => {
     // { label: "My Profile", icon: FaUser, path: "/authority/profile" },
     { label: "Overview", icon: GrOverview, path: "/authority" },
     {
+      label: "Add Student",
+      icon: FaUsers,
+      path: "/authority/add-student",
+    },
+    {
       label: "Create Election",
       icon: FaPlus,
       path: "/authority/create-election",
