@@ -27,6 +27,7 @@ import AdminLayout from "../layouts/AdminLayout";
 import AdminDashboard from "../pages/Admin/AdminDashboard";
 import ManageUsers from "../pages/Admin/ManageUsers";
 import VotePage from "../pages/vote/VotePage";
+import AddDepartmentStudent from "../pages/Authority/AddDepartmentStudent";
 
 export const router = createBrowserRouter([
   {
@@ -74,6 +75,7 @@ export const router = createBrowserRouter([
     ),
     children: [
       { index: true, element: <AuthorityDashboard /> },
+      { path: 'add-student', element: <AddDepartmentStudent></AddDepartmentStudent>},
       { path: 'create-election', element: <AuthorityCreateElection /> },
       { path: 'manage-elections', element: <AuthorityManageElections></AuthorityManageElections> },
       { path: 'candidate-management', element: <ManageApplications /> },
