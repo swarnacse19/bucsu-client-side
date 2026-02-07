@@ -133,7 +133,7 @@ const ApplyCandidate = () => {
     <div className="max-w-3xl mx-auto">
       <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
         {/* Header */}
-        <div className="bg-gradient-to-r from-purple-600 to-indigo-600 p-6">
+        <div className="bg-linear-to-r from-purple-600 to-indigo-600 p-6">
           <div className="flex items-center gap-3">
             <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center">
               <FaUserTie className="text-white text-xl" />

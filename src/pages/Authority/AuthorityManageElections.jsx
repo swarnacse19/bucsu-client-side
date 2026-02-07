@@ -18,7 +18,8 @@ const AuthorityManageElections = () => {
   const [elections, setElections] = useState([]);
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState("all");
-
+  const [detailsOpen, setDetailsOpen] = useState(false);
+  const [selectedElection, setSelectedElection] = useState(null);
   const [open, setOpen] = useState(false);
   const [editId, setEditId] = useState(null);
   const [form, setForm] = useState({
@@ -89,7 +90,7 @@ const AuthorityManageElections = () => {
         type: form.type,
         startDate: new Date(form.startDate),
         endDate: new Date(form.endDate),
-        positions: positionsArray, 
+        positions: positionsArray,
         status: form.status,
       });
 
@@ -99,6 +100,11 @@ const AuthorityManageElections = () => {
     } catch {
       toast.error("Failed to update election");
     }
+  };
+
+  const openDetails = (election) => {
+    setSelectedElection(election);
+    setDetailsOpen(true);
   };
 
   const handleDelete = async (id, title) => {
@@ -197,7 +203,12 @@ const AuthorityManageElections = () => {
                 return (
                   <tr key={e._id}>
                     <td className="px-6 py-4">
-                      <p className="font-medium text-slate-800">{e.title}</p>
+                      <button
+                        onClick={() => openDetails(e)}
+                        className="font-medium text-indigo-600 hover:underline text-left"
+                      >
+                        {e.title}
+                      </button>
                       <p className="text-sm text-slate-500 truncate max-w-xs">
                         {e.description}
                       </p>
@@ -265,8 +276,8 @@ const AuthorityManageElections = () => {
           >
             <h2 className="text-xl font-semibold">Edit Election</h2>
             <label className="block text-sm font-medium text-gray-700 mb-1">
-                Title 
-              </label>
+              Title
+            </label>
             <input
               className="w-full border p-2 rounded"
               value={form.title}
@@ -275,8 +286,8 @@ const AuthorityManageElections = () => {
               required
             />
             <label className="block text-sm font-medium text-gray-700 mb-1">
-                Positions 
-              </label>
+              Positions
+            </label>
             <input
               className="w-full border p-2 rounded"
               value={form.positions}
@@ -285,8 +296,8 @@ const AuthorityManageElections = () => {
               required
             />
             <label className="block text-sm font-medium text-gray-700 mb-1">
-                Description 
-              </label>
+              Description
+            </label>
             <textarea
               className="w-full border p-2 rounded"
               value={form.description}
@@ -296,8 +307,8 @@ const AuthorityManageElections = () => {
               placeholder="Description"
             />
             <label className="block text-sm font-medium text-gray-700 mb-1">
-                start date 
-              </label>
+              start date
+            </label>
             <input
               type="datetime-local"
               className="w-full border p-2 rounded"
@@ -305,9 +316,9 @@ const AuthorityManageElections = () => {
               onChange={(e) => setForm({ ...form, startDate: e.target.value })}
               required
             />
-<label className="block text-sm font-medium text-gray-700 mb-1">
-                end date 
-              </label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              end date
+            </label>
             <input
               type="datetime-local"
               className="w-full border p-2 rounded"
@@ -332,6 +343,46 @@ const AuthorityManageElections = () => {
               </button>
             </div>
           </form>
+        </div>
+      )}
+      {detailsOpen && selectedElection && (
+        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+          <div className="bg-white p-6 rounded-xl w-full max-w-lg space-y-4">
+            <h2 className="text-xl font-semibold text-slate-800">
+              {selectedElection.title}
+            </h2>
+
+            <p className="text-slate-600">{selectedElection.description}</p>
+
+            <div className="space-y-2 text-sm text-slate-600">
+              <p>
+                <strong>Type:</strong> {selectedElection.type}
+              </p>
+              <p>
+                <strong>Start:</strong>{" "}
+                {formatDateTime(selectedElection.startDate)}
+              </p>
+              <p>
+                <strong>End:</strong> {formatDateTime(selectedElection.endDate)}
+              </p>
+              <p>
+                <strong>Status:</strong> {getStatus(selectedElection)}
+              </p>
+              <p>
+                <strong>Positions:</strong>{" "}
+                {selectedElection.positions?.join(", ")}
+              </p>
+            </div>
+
+            <div className="flex justify-end">
+              <button
+                onClick={() => setDetailsOpen(false)}
+                className="px-4 py-2 border rounded"
+              >
+                Close
+              </button>
+            </div>
+          </div>
         </div>
       )}
     </div>
