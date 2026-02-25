@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
 import { FaClock, FaUsers, FaArrowRight, FaVoteYea } from 'react-icons/fa';
+import { useSearchParams, useNavigate } from 'react-router';
 import useAxios from '../../hooks/useAxios';
 import useAuth from '../../hooks/useAuth';
 import Loading from '../../loading/Loading';
 import EmptyState from '../../components/EmptyState';
 import { getTimeRemaining } from '../../utils/formateDate';
-import VotePage from '../vote/VotePage'; 
+import VotePage from '../vote/VotePage';
 
 /* ---------------- Countdown Timer ---------------- */
 const CountdownTimer = ({ endDate }) => {
@@ -39,8 +40,9 @@ const CountdownTimer = ({ endDate }) => {
 };
 
 /* ---------------- Election Card ---------------- */
-const ElectionCard = ({ election, userId, onVote }) => {
+const ElectionCard = ({ election, userId, onVote, isApproved }) => {
   const axiosSecure = useAxios();
+  const navigate = useNavigate();
   const [voted, setVoted] = useState(false);
   const [checking, setChecking] = useState(true);
   // console.log(onVote);
@@ -100,13 +102,33 @@ const ElectionCard = ({ election, userId, onVote }) => {
             >
               Voted
             </button>
+          ) : isApproved ? (
+            <div className="flex gap-2">
+              <button
+                onClick={() => navigate(`/dashboard/election/${election._id}`)}
+                className="px-4 py-2 bg-indigo-50 text-indigo-600 rounded-lg hover:bg-indigo-100 font-medium transition-colors"
+              >
+                View Details
+              </button>
+              <button
+                onClick={() => onVote(election._id)}
+                className="inline-flex items-center gap-2 px-5 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors font-medium"
+              >
+                Vote Now <FaArrowRight />
+              </button>
+            </div>
           ) : (
-            <button
-              onClick={() => onVote(election._id)}
-              className="inline-flex items-center gap-2 px-5 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors font-medium"
-            >
-              Vote Now <FaArrowRight />
-            </button>
+            <div className="flex gap-2">
+              <button
+                onClick={() => navigate(`/dashboard/election/${election._id}`)}
+                className="px-4 py-2 bg-indigo-50 text-indigo-600 rounded-lg hover:bg-indigo-100 font-medium transition-colors"
+              >
+                View Details
+              </button>
+              <span className="text-xs text-amber-600 bg-amber-50 p-2 rounded-lg border border-amber-100 self-center">
+                Need Registration to Vote
+              </span>
+            </div>
           )}
         </div>
       </div>
@@ -118,7 +140,8 @@ const ElectionCard = ({ election, userId, onVote }) => {
 const OngoingElections = () => {
   const axiosSecure = useAxios();
   const { user } = useAuth();
-  const userId = user?.uid;
+  const userId = user?.email;
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const [loading, setLoading] = useState(true);
   const [elections, setElections] = useState([]);
@@ -138,6 +161,25 @@ const OngoingElections = () => {
 
     fetchElections();
   }, [axiosSecure]);
+
+  const selectedCategory = searchParams.get("category") || "all";
+  const categories = ["all", ...new Set(elections.map(e => e.type))];
+
+  const filteredElections = selectedCategory === "all"
+    ? elections
+    : elections.filter(e => e.type === selectedCategory);
+
+  const handleCategoryChange = (category) => {
+    setSearchParams(prev => {
+      const newParams = new URLSearchParams(prev);
+      if (category === "all") {
+        newParams.delete("category");
+      } else {
+        newParams.set("category", category);
+      }
+      return newParams;
+    });
+  };
 
   if (loading) {
     return <Loading fullScreen={false} message="Loading elections..." />;
@@ -173,15 +215,34 @@ const OngoingElections = () => {
         </div>
       </div>
 
+      {/* Category Tabs */}
+      {categories.length > 0 && (
+        <div className="flex gap-2 mb-4 overflow-x-auto pb-2 scrollbar-hide">
+          {categories.map((cat) => (
+            <button
+              key={cat}
+              onClick={() => handleCategoryChange(cat)}
+              className={`px-4 py-2 rounded-lg font-medium capitalize whitespace-nowrap transition-colors ${selectedCategory === cat
+                ? "bg-green-600 text-white shadow-md shadow-green-200"
+                : "bg-white text-gray-600 hover:bg-gray-50 border border-gray-100"
+                }`}
+            >
+              {cat === "all" ? "All Elections" : `${cat} Elections`}
+            </button>
+          ))}
+        </div>
+      )}
+
       {/* Elections Grid */}
-      {elections.length > 0 ? (
+      {filteredElections.length > 0 ? (
         <div className="grid md:grid-cols-2 gap-6">
-          {elections.map(election => (
+          {filteredElections.map(election => (
             <ElectionCard
               key={election._id}
               election={election}
               userId={userId}
               onVote={setActiveElectionId}
+              isApproved={user?.approvedElections?.includes(election._id)}
             />
           ))}
         </div>
@@ -190,7 +251,7 @@ const OngoingElections = () => {
           <EmptyState
             icon={FaVoteYea}
             title="No Ongoing Elections"
-            message="There are no active elections at the moment."
+            message={`There are no active ${selectedCategory !== 'all' ? selectedCategory + ' ' : ''}elections at the moment.`}
           />
         </div>
       )}
