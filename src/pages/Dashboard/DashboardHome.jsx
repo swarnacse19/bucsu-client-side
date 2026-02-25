@@ -10,6 +10,7 @@ import {
 import useAuth from "../../hooks/useAuth";
 import useAxios from "../../hooks/useAxios";
 import Loading from "../../loading/Loading";
+import ProfileSection from "./ProfileSection";
 
 const DashboardHome = () => {
   const { user } = useAuth();
@@ -47,7 +48,7 @@ const DashboardHome = () => {
     };
 
     fetchDashboardData();
-  }, [axiosSecure]);
+  }, [axiosSecure, user.email]);
 
   if (loading) {
     return <Loading />;
@@ -59,12 +60,15 @@ const DashboardHome = () => {
       <div className="bg-linear-to-r from-blue-600 to-purple-600 rounded-2xl p-6 text-white">
         <h1 className="text-2xl font-bold">
           Welcome back,{" "}
-          {(user?.name || user?.displayName)?.split(" ")[0] || "Student"}! 👋
+          {(user?.name || user?.displayName || user?.email)?.split(" ")[0] || "Student"}! 👋
         </h1>
         <p className="text-blue-100 mt-2">
           Here's what's happening with your elections today.
         </p>
       </div>
+
+      {/* Profile Section */}
+      <ProfileSection />
 
       {/* Stats Grid */}
       <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -73,7 +77,7 @@ const DashboardHome = () => {
             <div>
               <p className="text-sm text-gray-500">Ongoing Elections</p>
               <p className="text-3xl font-bold text-green-600 mt-1">
-                {data.ongoingElections.length} 
+                {data.ongoingElections.length}
               </p>
             </div>
             <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center">
@@ -101,7 +105,7 @@ const DashboardHome = () => {
             <div>
               <p className="text-sm text-gray-500">My Applications</p>
               <p className="text-3xl font-bold text-purple-600 mt-1">
-                {data.myApplications.length} 
+                {data.myApplications.length}
               </p>
             </div>
             <div className="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center">
@@ -115,7 +119,7 @@ const DashboardHome = () => {
             <div>
               <p className="text-sm text-gray-500">New Notices</p>
               <p className="text-3xl font-bold text-orange-600 mt-1">
-                {data.notices.length} 
+                {data.notices.length}
               </p>
             </div>
             <div className="w-12 h-12 bg-orange-100 rounded-xl flex items-center justify-center">
@@ -217,47 +221,7 @@ const DashboardHome = () => {
         </div>
       </div>
 
-      {/* Ongoing Elections */}
-      {data.ongoingElections.length > 0 && (
-        <div className="bg-white rounded-xl shadow-sm border border-gray-100">
-          <div className="flex items-center justify-between p-5 border-b">
-            <h2 className="text-lg font-semibold text-gray-800">🗳️ Vote Now</h2>
-            <Link
-              to="/dashboard/ongoing-elections"
-              className="text-indigo-600 text-sm hover:underline"
-            >
-              View All
-            </Link>
-          </div>
-          <div className="p-5">
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              {data.ongoingElections.slice(0, 3).map((election) => (
-                <div
-                  key={election._id}
-                  className="border border-green-200 bg-green-50 rounded-xl p-4"
-                >
-                  <span className="inline-flex items-center gap-1 px-2 py-1 bg-green-500 text-white text-xs rounded-full mb-3">
-                    <span className="w-2 h-2 bg-white rounded-full animate-pulse" />
-                    Live
-                  </span>
-                  <h3 className="font-semibold text-gray-800">
-                    {election.title}
-                  </h3>
-                  <p className="text-sm text-gray-500 mt-1 mb-4">
-                    Ends: {new Date(election.endDate).toLocaleDateString()}
-                  </p>
-                  <Link
-                    to={`/dashboard/vote/${election._id}`}
-                    className="inline-flex items-center gap-2 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 text-sm font-medium"
-                  >
-                    Vote Now <FaArrowRight />
-                  </Link>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      )}
+      
     </div>
   );
 };
