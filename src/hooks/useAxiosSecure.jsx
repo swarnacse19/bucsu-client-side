@@ -6,7 +6,7 @@ import { getIdToken } from "firebase/auth";
 import { auth } from "../firebase/firebase.init"; 
 
 const axiosSecure = axios.create({
-  baseURL: `http://localhost:5000`,
+  baseURL: `https://bucsu-server-side.vercel.app`,
 });
 
 

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router";
 import { FaPlus, FaTrash, FaSearch, FaRegEdit } from "react-icons/fa";
 import Swal from "sweetalert2";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import {
   formatDateTime,
   isOngoing,
@@ -50,7 +50,7 @@ const AuthorityManageElections = () => {
   const getStatus = (e) => {
     if (e.status === "ongoing" || isOngoing(e.startDate, e.endDate))
       return "ongoing";
-    if (e.status === "paused") return "paused";
+    // if (e.status === "paused") return "paused";
     if (isPast(e.endDate)) return "ended";
     if (isFuture(e.startDate)) return "upcoming";
     return "unknown";
@@ -167,7 +167,7 @@ const AuthorityManageElections = () => {
             <option value="ongoing">Ongoing</option>
             <option value="upcoming">Upcoming</option>
             <option value="ended">Ended</option>
-            <option value="paused">Paused</option>
+            {/* <option value="paused">Paused</option> */}
           </select>
         </div>
       </div>
@@ -385,6 +385,7 @@ const AuthorityManageElections = () => {
           </div>
         </div>
       )}
+      <ToastContainer position="top-right" autoClose={3000}></ToastContainer>
     </div>
   );
 };

@@ -64,6 +64,9 @@ const ResultManage = () => {
               <thead>
                 <tr className="bg-gray-50/50 border-b border-gray-200">
                   <th className="px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider">
+                    SL
+                  </th>
+                  <th className="px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider">
                     Election Title
                   </th>
                   <th className="px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider">
@@ -77,7 +80,7 @@ const ResultManage = () => {
               <tbody className="divide-y divide-gray-100">
                 {loading ? (
                   <tr>
-                    <td colSpan="3" className="px-6 py-12 text-center">
+                    <td colSpan="4" className="px-6 py-12 text-center">
                       <div className="flex justify-center items-center gap-2 text-gray-400">
                         <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce"></div>
                         <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce [animation-delay:-.3s]"></div>
@@ -86,8 +89,13 @@ const ResultManage = () => {
                     </td>
                   </tr>
                 ) : elections.length > 0 ? (
-                  elections.map((e) => (
+                  elections.map((e, index) => (
                     <tr key={e._id} className="hover:bg-gray-50/80 transition-all group">
+                      <td className="px-6 py-5">
+                        <span className="text-sm font-medium text-gray-500">
+                          {String(index + 1).padStart(2, '0')}
+                        </span>
+                      </td>
                       <td className="px-6 py-5">
                         <div className="font-semibold text-gray-700 group-hover:text-blue-600 transition-colors">
                           {e.title}
@@ -110,11 +118,10 @@ const ResultManage = () => {
                         <button
                           disabled={e.isCounted}
                           onClick={() => countResult(e)}
-                          className={`inline-flex items-center gap-2 px-5 py-2.5 rounded-xl font-bold text-sm transition-all shadow-sm active:scale-95 ${
-                            e.isCounted
+                          className={`inline-flex items-center gap-2 px-5 py-2.5 rounded-xl font-bold text-sm transition-all shadow-sm active:scale-95 ${e.isCounted
                               ? "bg-gray-100 text-gray-400 cursor-not-allowed border border-gray-200"
                               : "bg-blue-600 text-white hover:bg-blue-700 hover:shadow-blue-200"
-                          }`}
+                            }`}
                         >
                           <IoBarChartSharp />
                           {e.isCounted ? "Results Ready" : "Calculate Result"}
@@ -124,7 +131,7 @@ const ResultManage = () => {
                   ))
                 ) : (
                   <tr>
-                    <td colSpan="3" className="px-6 py-20 text-center text-gray-400">
+                    <td colSpan="4" className="px-6 py-20 text-center text-gray-400">
                       No ended elections available for processing.
                     </td>
                   </tr>

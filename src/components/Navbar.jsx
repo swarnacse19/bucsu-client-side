@@ -9,7 +9,7 @@ import { toast, ToastContainer } from "react-toastify";
 const navLinks = [
   { name: "Home", id: "home" },
   { name: "About Us", id: "about" },
-  { name: "Why Vote Ballot", id: "why" },
+  { name: "Why Vote Ballot", id: "why-vote-ballot" },
   { name: "Stories", id: "stories" },
   { name: "Contact Us", id: "contact" },
 ];
@@ -30,7 +30,7 @@ const Navbar = () => {
   const avatar = user?.photoURL;
 
   const dashboardPath =
-    role === "student"
+    (role === "student" || role === "voter")
       ? "/dashboard"
       : role === "authority"
         ? "/authority"
@@ -122,10 +122,40 @@ const Navbar = () => {
               {link.name}
             </button>
           ))}
+          {user ? (
+              <>
+                <Link to={dashboardPath} className="text-sm font-medium">
+                  Dashboard
+                </Link>
+
+                <img
+                  src={avatar}
+                  className="w-8 h-8 rounded-full border"
+                />
+
+                <button
+                  onClick={handleLogOut}
+                  className="flex items-center gap-2 px-3 py-2 bg-red-500 text-white rounded"
+                >
+                  <FaSignOutAlt /> Logout
+                </button>
+              </>
+            ) : (
+              <>
+                <Link to="/login">Login</Link>
+                <Link
+                  to="/register"
+                  className="bg-indigo-600 text-white px-4 py-2 rounded"
+                >
+                  Join Now
+                </Link>
+              </>
+            )}
         </div>
+        
       )}
 
-      <ToastContainer />
+      <ToastContainer position="top-right" autoClose={3000}/>
     </nav>
   );
 };

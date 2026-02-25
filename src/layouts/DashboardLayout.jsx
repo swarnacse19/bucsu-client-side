@@ -48,6 +48,11 @@ const DashboardLayout = () => {
       icon: FaUserEdit,
     },
     {
+      name: "Become a Voter",
+      path: "/dashboard/become-voter",
+      icon: FaUserEdit,
+    },
+    {
       name: "My Applications",
       path: "/dashboard/my-applications",
       icon: FaClipboardList,
@@ -93,7 +98,7 @@ const DashboardLayout = () => {
               src={
                 user?.photo ||
                 user?.photoURL ||
-                "https://i.pravatar.cc/150?img=1"
+                "https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png?20150327203541"
               }
               alt={user?.name || user?.displayName}
               className="w-12 h-12 rounded-full border-2 border-indigo-500 object-cover"
@@ -115,10 +120,9 @@ const DashboardLayout = () => {
               end={item.path === "/dashboard"}
               onClick={() => setIsSidebarOpen(false)}
               className={({ isActive }) =>
-                `flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${
-                  isActive
-                    ? "bg-blue-50 text-blue-600 font-medium"
-                    : "text-gray-600 hover:bg-gray-50"
+                `flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${isActive
+                  ? "bg-blue-50 text-blue-600 font-medium"
+                  : "text-gray-600 hover:bg-gray-50"
                 }`
               }
             >
