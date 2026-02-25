@@ -15,7 +15,7 @@ import useAuth from "../../hooks/useAuth";
 import useAxios from "../../hooks/useAxios";
 
 
-// ✅ MOVE THIS OUTSIDE
+// ✅ MOVE THIS TO OUTSIDE
 const InfoItem = ({ icon: Icon, label, value, name, editable, isEditing, editData, setEditData }) => (
   <div className="flex items-center gap-4 p-4 bg-slate-50 rounded-xl border border-slate-100">
     <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center shadow-sm text-indigo-600">
