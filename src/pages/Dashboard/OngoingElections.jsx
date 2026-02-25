@@ -58,7 +58,7 @@ const ElectionCard = ({ election, userId, onVote, isApproved }) => {
 
   return (
     <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition-shadow">
-      <div className="bg-gradient-to-r from-green-500 to-emerald-600 p-4">
+      <div className="bg-linear-to-r from-green-500 to-emerald-600 p-4">
         <div className="flex items-center justify-between">
           <span className="inline-flex items-center gap-2 px-3 py-1 bg-white/20 rounded-full text-white text-sm">
             <span className="w-2 h-2 bg-white rounded-full animate-pulse" />

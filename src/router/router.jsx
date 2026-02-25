@@ -20,7 +20,7 @@ import ApplyCandidate from "../pages/Dashboard/ApplyCandidate";
 import Guidelines from "../pages/Dashboard/GuideLines";
 import Notifications from "../pages/Dashboard/Notifications";
 import MyApplications from "../pages/Dashboard/MyApplications";
-import ManageApplications from "../pages/shared/ManageApplications";
+import ManageApplications from "../pages/Shared/ManageApplications";
 import ResultManage from "../pages/vote/ResultManage";
 import ViewResults from "../pages/vote/ViewResults";
 import AdminLayout from "../layouts/AdminLayout";

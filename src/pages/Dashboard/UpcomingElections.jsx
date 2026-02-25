@@ -1,17 +1,19 @@
 import { useEffect, useState } from 'react';
-import { FaCalendarAlt, FaClock, FaBell, FaMapMarkerAlt } from 'react-icons/fa';
+import { FaCalendarAlt, FaClock, FaBell } from 'react-icons/fa';
+import { useSearchParams, useNavigate } from 'react-router';
 import useAxios from '../../hooks/useAxios';
 import Loading from '../../loading/Loading';
 import EmptyState from '../../components/EmptyState';
-import { formatDate, formatDateTime } from '../../utils/formateDate';
+import { formatDateTime } from '../../utils/formateDate';
 
 const ElectionCard = ({ election }) => {
-  const [reminded, setReminded] = useState(false);
+  // const [reminded, setReminded] = useState(false);
+  const navigate = useNavigate();
 
-  const handleReminder = () => {
-    setReminded(true);
-    // In production, this would set up a notification
-  };
+  // const handleReminder = () => {
+  //   setReminded(true);
+  //   // In production, this would set up a notification
+  // };
 
   return (
     <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
@@ -51,18 +53,25 @@ const ElectionCard = ({ election }) => {
             {election.positions?.length || 0} positions available
           </div>
 
-          <button
-            onClick={handleReminder}
-            disabled={reminded}
-            className={`inline-flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-colors ${
-              reminded
+          <div className="flex gap-2">
+            <button
+              onClick={() => navigate(`/dashboard/election/${election._id}`)}
+              className="px-4 py-2 bg-indigo-50 text-indigo-600 rounded-lg hover:bg-indigo-100 font-medium transition-colors"
+            >
+              View Details
+            </button>
+            {/* <button
+              onClick={handleReminder}
+              disabled={reminded}
+              className={`inline-flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-colors ${reminded
                 ? 'bg-green-100 text-green-700'
                 : 'bg-blue-50 text-blue-600 hover:bg-blue-100'
-            }`}
-          >
-            <FaBell />
-            {reminded ? 'Reminder Set' : 'Set Reminder'}
-          </button>
+                }`}
+            >
+              <FaBell />
+              {reminded ? 'Reminder Set' : 'Set Reminder'}
+            </button> */}
+          </div>
         </div>
       </div>
     </div>
@@ -73,6 +82,8 @@ const UpcomingElections = () => {
   const axiosSecure = useAxios();
   const [loading, setLoading] = useState(true);
   const [elections, setElections] = useState([]);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchElections = async () => {
@@ -88,6 +99,25 @@ const UpcomingElections = () => {
 
     fetchElections();
   }, [axiosSecure]);
+
+  const selectedCategory = searchParams.get("category") || "all";
+  const categories = ["all", ...new Set(elections.map(e => e.type))];
+
+  const filteredElections = selectedCategory === "all"
+    ? elections
+    : elections.filter(e => e.type === selectedCategory);
+
+  const handleCategoryChange = (category) => {
+    setSearchParams(prev => {
+      const newParams = new URLSearchParams(prev);
+      if (category === "all") {
+        newParams.delete("category");
+      } else {
+        newParams.set("category", category);
+      }
+      return newParams;
+    });
+  };
 
   if (loading) {
     return <Loading fullScreen={false} message="Loading elections..." />;
@@ -108,10 +138,28 @@ const UpcomingElections = () => {
         </div>
       </div>
 
+      {/* Category Tabs */}
+      {categories.length > 0 && (
+        <div className="flex gap-2 mb-4 overflow-x-auto pb-2 scrollbar-hide">
+          {categories.map((cat) => (
+            <button
+              key={cat}
+              onClick={() => handleCategoryChange(cat)}
+              className={`px-4 py-2 rounded-lg font-medium capitalize whitespace-nowrap transition-colors ${selectedCategory === cat
+                ? "bg-blue-600 text-white shadow-md shadow-blue-200"
+                : "bg-white text-gray-600 hover:bg-gray-50 border border-gray-100"
+                }`}
+            >
+              {cat === "all" ? "All Elections" : `${cat} Elections`}
+            </button>
+          ))}
+        </div>
+      )}
+
       {/* Elections Grid */}
-      {elections.length > 0 ? (
+      {filteredElections.length > 0 ? (
         <div className="grid md:grid-cols-2 gap-6">
-          {elections.map((election) => (
+          {filteredElections.map((election) => (
             <ElectionCard key={election._id} election={election} />
           ))}
         </div>
@@ -120,7 +168,7 @@ const UpcomingElections = () => {
           <EmptyState
             icon={FaCalendarAlt}
             title="No Upcoming Elections"
-            message="There are no scheduled elections at the moment. Check back later."
+            message={`There are no scheduled ${selectedCategory !== 'all' ? selectedCategory + ' ' : ''}elections at the moment. Check back later.`}
           />
         </div>
       )}
