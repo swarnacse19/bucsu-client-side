@@ -73,7 +73,7 @@ const AdminLayout = () => {
         <div className="p-4 border-b border-gray-700">
           <div className="flex items-center gap-3">
             <img
-              src={user?.photo || user?.photoURL || 'https://i.pravatar.cc/150?img=1'}
+              src={user?.photo || user?.photoURL || 'https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png?20150327203541'}
               alt={user?.name || user?.displayName}
               className="w-10 h-10 rounded-full border-2 border-indigo-400 object-cover"
             />
