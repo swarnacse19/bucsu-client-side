@@ -88,21 +88,21 @@ const ViewResults = () => {
                       <td className="px-6 py-5">
                         <div className="text-sm text-gray-600 flex flex-col">
                           <span className="font-medium">
-                             {new Date(r.publishedAt).toLocaleDateString('en-GB', {
-                                day: 'numeric',
-                                month: 'short',
-                                year: 'numeric'
-                             })}
+                            {new Date(r.publishedAt).toLocaleDateString('en-GB', {
+                              day: 'numeric',
+                              month: 'short',
+                              year: 'numeric'
+                            })}
                           </span>
                           <span className="text-[10px] text-gray-400 uppercase tracking-tighter italic">
                             Official Release
                           </span>
                         </div>
                       </td>
-                      <td className="px-6 py-5 text-right">
+                      <td className="px-6 py-5 text-right relative">
                         <button
                           onClick={() => viewResult(r.electionId)}
-                          className="inline-flex items-center gap-2 bg-white text-emerald-600 border border-emerald-200 px-4 py-2 rounded-lg font-bold text-sm transition-all hover:bg-emerald-600 hover:text-white hover:shadow-lg hover:shadow-emerald-100 active:scale-95"
+                          className="relative z-10 pointer-events-auto inline-flex items-center gap-2 bg-white text-emerald-600 border border-emerald-200 px-4 py-2 rounded-lg font-bold text-sm transition-all hover:bg-emerald-600 hover:text-white hover:shadow-lg hover:shadow-emerald-100 active:scale-95"
                         >
                           <FaEye className="text-base" />
                           View Detailed Results

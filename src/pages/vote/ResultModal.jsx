@@ -2,7 +2,7 @@ import { toast, ToastContainer } from "react-toastify";
 import useAxios from "../../hooks/useAxios";
 
 const ResultModal = ({ data, close }) => {
-//   console.log(data.results);
+  //   console.log(data.results);
   const axiosSecure = useAxios();
 
   const publishResult = async () => {
@@ -29,17 +29,23 @@ const ResultModal = ({ data, close }) => {
 
         {data.results.map((r) => (
           <div key={r.position} className="mb-4">
-            <h4 className="font-semibold">Position: {r.position}</h4>
+            <div className="flex items-center justify-between mb-2">
+              <h4 className="font-semibold">Position: {r.position}</h4>
+              {r.isDraw && (
+                <span className="bg-red-100 text-red-600 text-[10px] font-black px-2 py-0.5 rounded-full uppercase tracking-tighter border border-red-200">
+                  No Winner - Draw
+                </span>
+              )}
+            </div>
 
             <div className="space-y-3">
               {r.candidates.map((c) => (
                 <div
                   key={c.studentId}
-                  className={`flex items-center justify-between p-3 rounded-lg border ${
-                    c.studentId === r.winner.studentId
+                  className={`flex items-center justify-between p-3 rounded-lg border ${!r.isDraw && c.studentId === r.winner?.studentId
                       ? "border-yellow-400 bg-yellow-50"
                       : "border-gray-200"
-                  }`}
+                    }`}
                 >
                   {/* Left: Photo + Info */}
                   <div className="flex items-center gap-3">
@@ -51,7 +57,7 @@ const ResultModal = ({ data, close }) => {
 
                     <div>
                       <p className="font-semibold text-gray-800">{c.name}</p>
-                      {/* <p className="text-sm text-gray-500">{c.studentId}</p> */}
+                      <p className="font-semibold text-gray-800">{c.studentId}</p>
                     </div>
                   </div>
 
@@ -59,7 +65,7 @@ const ResultModal = ({ data, close }) => {
                   <div className="text-right">
                     <p className="font-bold text-lg">{c.votes} votes</p>
 
-                    {c.studentId === r.winner.studentId && (
+                    {!r.isDraw && c.studentId === r.winner?.studentId && (
                       <span className="inline-flex items-center gap-1 text-sm font-semibold text-yellow-600">
                         🏆 Winner
                       </span>
