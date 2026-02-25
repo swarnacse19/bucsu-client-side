@@ -2,6 +2,7 @@ import { createUserWithEmailAndPassword, getAuth, onAuthStateChanged, sendPasswo
 import React, { useEffect, useState } from 'react';
 import { AuthContext } from './AuthContext';
 import { auth } from "../firebase/firebase.init";
+import axios from 'axios';
 
 function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
@@ -19,7 +20,6 @@ function AuthProvider({ children }) {
   const signIn = async (email, password) => {
     setLoading(true);
     const result = await signInWithEmailAndPassword(auth, email, password);
-    // localStorage.setItem("accessToken", result.user.accessToken);
     return result;
 
   };
@@ -34,15 +34,25 @@ function AuthProvider({ children }) {
   const resetPassword = (email) => {
     return sendPasswordResetEmail(auth, email);
   };
+
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      setUser(currentUser);
+    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+      if (currentUser) {
+        try {
+          const res = await axios.get(`https://bucsu-server-side.vercel.app/users/${currentUser.email}`);
+          if (res.data) {
+            setUser({ ...currentUser, ...res.data });
+          } else {
+            setUser(currentUser);
+          }
+        } catch (error) {
+          console.error("Failed to fetch user data", error);
+          setUser(currentUser);
+        }
+      } else {
+        setUser(null);
+      }
       setLoading(false);
-      // if (currentUser) {
-      //   localStorage.setItem("accessToken", currentUser.accessToken); 
-      // } else {
-      //   localStorage.removeItem("accessToken"); 
-      // }
     });
     return () => {
       unsubscribe();
