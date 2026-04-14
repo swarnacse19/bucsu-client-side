@@ -41,11 +41,6 @@ const AuthorityLayout = () => {
     // { label: "My Profile", icon: FaUser, path: "/authority/profile" },
     { label: "Overview", icon: GrOverview, path: "/authority" },
     {
-      label: "Add Student",
-      icon: FaUsers,
-      path: "/authority/add-student",
-    },
-    {
       label: "Create Election",
       icon: FaPlus,
       path: "/authority/create-election",
@@ -59,6 +54,11 @@ const AuthorityLayout = () => {
       label: "Candidate Management",
       icon: FaUsers,
       path: "/authority/candidate-management",
+    },
+    {
+      label: "Voter Applications",
+      icon: FaUsers,
+      path: "/authority/voter-applications",
     },
     { label: "Notices", icon: FaBell, path: "/authority/notices" },
     {
@@ -155,9 +155,8 @@ const AuthorityLayout = () => {
                     </button>
                     {/* Submenu */}
                     <ul
-                      className={`overflow-hidden transition-all duration-300 ${
-                        item.isOpen ? "max-h-48 mt-1" : "max-h-0"
-                      }`}
+                      className={`overflow-hidden transition-all duration-300 ${item.isOpen ? "max-h-48 mt-1" : "max-h-0"
+                        }`}
                     >
                       {item.submenu.map((subItem, subIndex) => (
                         <li key={subIndex}>
@@ -167,10 +166,9 @@ const AuthorityLayout = () => {
                             onClick={handleLinkClick}
                             className={({ isActive }) =>
                               `flex items-center gap-3 pl-12 pr-4 py-2 text-sm rounded-lg transition-colors
-                              ${
-                                isActive
-                                  ? "bg-blue-600 text-white"
-                                  : "text-gray-400 hover:bg-gray-700 hover:text-white"
+                              ${isActive
+                                ? "bg-blue-600 text-white"
+                                : "text-gray-400 hover:bg-gray-700 hover:text-white"
                               }`
                             }
                           >
@@ -189,10 +187,9 @@ const AuthorityLayout = () => {
                     onClick={handleLinkClick}
                     className={({ isActive }) =>
                       `flex items-center gap-3 px-4 py-3 rounded-lg transition-colors
-                      ${
-                        isActive
-                          ? "bg-blue-600 text-white"
-                          : "text-gray-300 hover:bg-gray-700 hover:text-white"
+                      ${isActive
+                        ? "bg-blue-600 text-white"
+                        : "text-gray-300 hover:bg-gray-700 hover:text-white"
                       }`
                     }
                   >

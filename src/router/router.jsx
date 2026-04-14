@@ -9,25 +9,37 @@ import DashboardHome from "../pages/Dashboard/DashboardHome";
 import Forbidden from "../pages/Forbidden";
 import AuthorityLayout from "../layouts/AuthorityLayout";
 import AuthorityDashboard from "../pages/Authority/AuthorityDashboard";
-import AuthorityCreateElection from "../pages/Authority/AuthorityCreateElection";
 import AuthorityManageElections from "../pages/Authority/AuthorityManageElections";
 import ManageNotices from "../pages/Authority/ManageNotices";
 import CandidateRules from "../pages/Authority/CandidateRules";
 import VoterRules from "../routes/VoterRules";
+import CreateElectionType from "../pages/Authority/CreateElectionType";
+import CreateDistrictElection from "../pages/Authority/CreateDistrictElection";
+import CreateDeptElection from "../pages/Authority/CreateDeptElection";
+import CreateCRElection from "../pages/Authority/CreateCRElection";
+import CreateCustomElection from "../pages/Authority/CreateCustomElection";
+import CreateBUCSUElection from "../pages/Authority/CreateBUCSUElection";
 import OngoingElections from "../pages/Dashboard/OngoingElections";
 import UpcomingElections from "../pages/Dashboard/UpcomingElections";
-import ApplyCandidate from "../pages/Dashboard/ApplyCandidate";
+import CandidateLanding from "../pages/CandidateApplication/CandidateLanding";
+import ApplyDistrict from "../pages/CandidateApplication/ApplyDistrict";
+import ApplyDept from "../pages/CandidateApplication/ApplyDept";
+import ApplyCR from "../pages/CandidateApplication/ApplyCR";
+import ApplyCustom from "../pages/CandidateApplication/ApplyCustom";
 import Guidelines from "../pages/Dashboard/GuideLines";
 import Notifications from "../pages/Dashboard/Notifications";
 import MyApplications from "../pages/Dashboard/MyApplications";
-import ManageApplications from "../pages/Shared/ManageApplications";
+import ElectionDetails from "../pages/Dashboard/ElectionDetails";
+import ManageApplications from "../pages/shared/ManageApplications";
 import ResultManage from "../pages/vote/ResultManage";
 import ViewResults from "../pages/vote/ViewResults";
 import AdminLayout from "../layouts/AdminLayout";
 import AdminDashboard from "../pages/Admin/AdminDashboard";
 import ManageUsers from "../pages/Admin/ManageUsers";
 import VotePage from "../pages/vote/VotePage";
-import AddDepartmentStudent from "../pages/Authority/AddDepartmentStudent";
+
+import ManageVoterApplications from "../pages/Authority/ManageVoterApplications";
+import VoterApplication from "../pages/Dashboard/VoterApplication";
 
 export const router = createBrowserRouter([
   {
@@ -58,7 +70,13 @@ export const router = createBrowserRouter([
       { index: true, element: <DashboardHome /> },
       { path: 'ongoing-elections', element: <OngoingElections /> },
       { path: 'upcoming-elections', element: <UpcomingElections /> },
-      { path: 'apply-candidate', element: <ApplyCandidate /> },
+      { path: 'election/:id', element: <ElectionDetails /> },
+      { path: 'apply-candidate', element: <CandidateLanding /> },
+      { path: 'apply-candidate/district/:id', element: <ApplyDistrict /> },
+      { path: 'apply-candidate/department/:id', element: <ApplyDept /> },
+      { path: 'apply-candidate/cr/:id', element: <ApplyCR /> },
+      { path: 'apply-candidate/custom/:id', element: <ApplyCustom /> },
+      { path: 'become-voter', element: <VoterApplication /> },
       { path: 'guidelines', element: <Guidelines /> },
       { path: 'notifications', element: <Notifications /> },
       { path: 'my-applications', element: <MyApplications /> },
@@ -75,10 +93,15 @@ export const router = createBrowserRouter([
     ),
     children: [
       { index: true, element: <AuthorityDashboard /> },
-      { path: 'add-student', element: <AddDepartmentStudent></AddDepartmentStudent>},
-      { path: 'create-election', element: <AuthorityCreateElection /> },
+      { path: 'create-election', element: <CreateElectionType /> },
+      { path: 'create-election/district', element: <CreateDistrictElection /> },
+      { path: 'create-election/department', element: <CreateDeptElection /> },
+      { path: 'create-election/cr', element: <CreateCRElection /> },
+      { path: 'create-election/custom', element: <CreateCustomElection /> },
+      { path: 'create-election/bucsu', element: <CreateBUCSUElection /> },
       { path: 'manage-elections', element: <AuthorityManageElections></AuthorityManageElections> },
       { path: 'candidate-management', element: <ManageApplications /> },
+      { path: 'voter-applications', element: <ManageVoterApplications /> },
       { path: 'notices', element: <ManageNotices /> },
       { path: 'election-management/candidate-rules', element: <CandidateRules /> },
       { path: 'election-management/voter-rules', element: <VoterRules /> },
@@ -95,7 +118,12 @@ export const router = createBrowserRouter([
     ),
     children: [
       { index: true, element: <AdminDashboard /> },
-      { path: 'create-election', element: <AuthorityCreateElection /> },
+      { path: 'create-election', element: <CreateElectionType /> },
+      { path: 'create-election/bucsu', element: <CreateBUCSUElection /> },
+      { path: 'create-election/district', element: <CreateDistrictElection /> },
+      { path: 'create-election/department', element: <CreateDeptElection /> },
+      { path: 'create-election/cr', element: <CreateCRElection /> },
+      { path: 'create-election/custom', element: <CreateCustomElection /> },
       { path: 'manage-elections', element: <AuthorityManageElections></AuthorityManageElections> },
       { path: 'candidate-management', element: <ManageApplications /> },
       { path: 'notices', element: <ManageNotices /> },
